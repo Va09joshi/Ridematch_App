@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const rideSchema = new mongoose.Schema({
-  driverId: {
+const rideRequestSchema = new mongoose.Schema({
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
@@ -22,18 +22,8 @@ const rideSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  availableSeats: {
-    type: Number,
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-  },
-  carDetails: {
-    name: { type: String, required: true },
-    number: { type: String, required: true },
-    color: { type: String, required: true },
+  note: {
+    type: String,
   },
   location: {
     type: {
@@ -43,8 +33,17 @@ const rideSchema = new mongoose.Schema({
     },
     coordinates: {
       type: [Number], // [longitude, latitude]
-      required: false,
+      required: true,
     },
+  },
+  status: {
+    type: String,
+    enum: ['requested', 'accepted', 'completed', 'cancelled'],
+    default: 'requested',
+  },
+  matchedRide: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Ride',
   },
   createdAt: {
     type: Date,
@@ -52,6 +51,6 @@ const rideSchema = new mongoose.Schema({
   },
 });
 
-rideSchema.index({ location: '2dsphere' });
+rideRequestSchema.index({ location: '2dsphere' });
 
-module.exports = mongoose.model('Ride', rideSchema);
+module.exports = mongoose.model('RideRequest', rideRequestSchema);
