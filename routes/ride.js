@@ -10,7 +10,7 @@ const {
   requestRide,
   respondToRequest,
   getUserRequests,
-} = require('../controllers/rideController');
+} = require('../controllers/ridecontroller');
 
 // ✅ Create a new ride (Driver)
 router.post('/', auth, createRide);
